@@ -5,7 +5,8 @@ const router = express.Router();
 const {
     addUser,
     getAllUsers,
-    getUserById
+    getUserById,
+    updateUser
 } = require("../controllers/userController");
 
 router.post("/", addUser);
@@ -13,5 +14,7 @@ router.post("/", addUser);
 router.get("/", getAllUsers);
 
 router.get("/:id", getUserById);
+
+router.put("/:id", updateUser);
 
 module.exports = router;

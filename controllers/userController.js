@@ -56,4 +56,51 @@ function getUserById(req, res) {
     });
 }
 
-module.exports = { addUser, getAllUsers, getUserById };
+function updateUser(req, res) {
+
+    const id = Number(req.params.id);
+    const { name, email } = req.body || {};
+
+    // Check if ID is valid
+    if (!Number.isInteger(id) || id <= 0) {
+        return res.status(400).json({
+            message: "Invalid user ID"
+        });
+    }
+
+    // Check name and email
+    if (
+        typeof name !== "string" ||
+        typeof email !== "string" ||
+        name.trim() === "" ||
+        email.trim() === ""
+    ) {
+        return res.status(400).json({
+            message: "Valid name and email are required"
+        });
+    }
+
+    // Find and update the user
+    for (let i = 0; i < users.length; i++) {
+
+        if (users[i].id === id) {
+
+            users[i].name = name.trim();
+            users[i].email = email.trim();
+
+            return res.status(200).json(users[i]);
+        }
+    }
+
+    return res.status(404).json({
+        message: "User not found"
+    });
+}
+
+
+module.exports = {
+    addUser,
+    getAllUsers,
+    getUserById,
+    updateUser
+};
